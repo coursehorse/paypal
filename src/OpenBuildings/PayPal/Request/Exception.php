@@ -20,6 +20,7 @@ class Request_Exception extends Exception {
 		$this->url = $url;
 		$this->params = $params;
 		$this->response = $response;
+		$this->code = $response["L_ERRORCODE0"];
 
 		parent::__construct($message, $variables);
 	}
