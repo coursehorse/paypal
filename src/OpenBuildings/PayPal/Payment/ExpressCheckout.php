@@ -52,6 +52,28 @@ class Payment_ExpressCheckout extends Payment {
 		));
 	}
 
+	public function do_refund($transactionId, $amount = null, $currencyCode = "USD") {
+		$refundType = "Full";
+		$additionalParams = array();
+
+		if ($amount != null) {
+			$refundType = "Partial";
+			$additionalParams = array(
+				'AMT' => $amount,
+				'CURRENCYCODE' => $currencyCode
+			);
+		}
+
+		$request = $this->_request('RefundTransaction', array_merge(
+			array(
+				'TRANSACTIONID' => $transactionId,
+				'REFUNDTYPE' => $refundType
+			),
+			$additionalParams
+		));
+
+		return $request;
+	}
 	protected function _set_params(array $params = array())
 	{
 		$order = $this->order();
